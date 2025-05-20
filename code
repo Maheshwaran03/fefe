@@ -1,0 +1,136 @@
+1. Mouse Click Counter Using useState
+// App.jsx
+import React, { useState } from 'react';
+
+function ClickCounter() {
+  const [count, setCount] = useState(0);
+
+  return (
+    <div onClick={() => setCount(count + 1)} style={{ padding: '50px', border: '2px solid black' }}>
+      <h2>Click inside this box</h2>
+      <p>Click Count: {count}</p>
+    </div>
+  );
+}
+export default ClickCounter;
+
+
+2. JSX Simple and Nested Components with Props
+// App.jsx
+import React from 'react';
+function Welcome(props) {
+  return <h2>Hello, {props.name}</h2>;
+}
+function Greeting() {
+  return (
+    <div>
+      <Welcome name="Alice" />
+      <Welcome name="Bob" />
+    </div>
+  );
+}
+export default Greeting;
+
+
+3. Form Input Submission and Save to JSON File (Simulated)
+Note: In-browser apps can't directly write files. Use this mock "save" simulation.
+// App.jsx
+import React, { useState } from 'react';
+function UserForm() {
+  const [formData, setFormData] = useState({ name: '', email: '' });
+  const [jsonData, setJsonData] = useState(null);
+  const handleChange = (e) => {
+    setFormData({...formData, [e.target.name]: e.target.value });
+  };
+  const handleSubmit = (e) => {
+    e.preventDefault();
+    setJsonData(JSON.stringify(formData, null, 2));
+  };
+  return (
+    <div>
+      <h2>User Form</h2>
+      <form onSubmit={handleSubmit}>
+        <input name="name" placeholder="Name" onChange={handleChange} />
+        <input name="email" placeholder="Email" onChange={handleChange} />
+        <button type="submit">Submit</button>
+      </form>
+      {jsonData && <pre>{jsonData}</pre>}
+    </div>
+  );
+}
+export default UserForm;
+
+
+4. Conditional Rendering Based on Input Value
+jsx
+Copy
+Edit
+// App.jsx
+import React, { useState } from 'react';
+function AgeChecker() {
+  const [age, setAge] = useState('');
+  return (
+    <div>
+      <input
+        type="number"
+        placeholder="Enter your age"
+        onChange={(e) => setAge(e.target.value)}
+      />
+      {age && (
+        <h2>{age >= 18 ? "You are an adult" : "You are a minor"}</h2>
+      )}
+    </div>
+  );
+}
+export default AgeChecker;
+
+
+5. Dynamic List Rendering with map()
+// App.jsx
+import React, { useState } from 'react';
+function ItemList() {
+  const [items, setItems] = useState([]);
+  const [input, setInput] = useState('');
+  const addItem = () => {
+    if (input) {
+      setItems([...items, input]);
+      setInput('');
+    }
+  };
+  return (
+    <div>
+      <h2>Item List</h2>
+      <input value={input} onChange={(e) => setInput(e.target.value)} />
+      <button onClick={addItem}>Add</button>
+      <ul>
+        {items.map((item, index) => <li key={index}>{item}</li>)}
+      </ul>
+    </div>
+  );
+}
+export default ItemList;
+
+
+6. Dynamic Image Slider with Props
+// App.jsx
+import React, { useState } from 'react';
+function ImageSlider({ images }) {
+  const [index, setIndex] = useState(0);
+  const next = () => setIndex((index + 1) % images.length);
+  const prev = () => setIndex((index - 1 + images.length) % images.length);
+  return (
+    <div>
+      <button onClick={prev}>⟨</button>
+      <img src={images[index]} alt="slide" style={{ width: '300px', height: '200px' }} />
+      <button onClick={next}>⟩</button>
+    </div>
+  );
+}
+const images = [
+  'https://via.placeholder.com/300x200?text=1',
+  'https://via.placeholder.com/300x200?text=2',
+  'https://via.placeholder.com/300x200?text=3',
+];
+export default function App() {
+  return <ImageSlider images={images} />;
+}
